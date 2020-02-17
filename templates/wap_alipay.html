@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en">
+<head style="min-width: 150px">
+    <meta charset="UTF-8">
+    <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ksher Wap_Alipay API</title>
+
+{#    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layouts/pure-min.css') }}"
+        integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='js/menus-min.js') }}">#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layouts/side-menu.css') }}">
+
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/side-menu-old-ie.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+{#            <link rel="stylesheet" href="css/layouts/side-menu.css">#}
+
+        <!--<![endif]-->
+<style>
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+
+</head>
+<body>
+
+<div id="layout">
+   <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    <div style="width: 200px">
+        <div id = "menu" style="overflow: unset">
+        <div class="pure-menu">
+            <a href="/" class="pure-menu-heading">KsherPay APIs</a>
+            <div class="pure-menu custom-restricted-width">
+                <ul class="pure-menu-list">
+                <li class="pure-menu-item">
+                <li class="pure-menu-item pure-menu-has-children">
+                    <a href="#" id="menuLink1" class="pure-menu-link" aria-haspopup="true">🔖Order Request</a>
+                    <ul class="pure-menu-children">
+                        <li class="pure-menu-item">
+                            <a href="/native_pay" class="pure-menu-link">Ksher Native_Pay API 🔗</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="/quick_pay" class="pure-menu-link">Ksher Quick_Pay API 🔗</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="/jsapi_pay" class="pure-menu-link">Ksher Jsapi_Pay API 🔗</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="/web_alipay" class="pure-menu-link">Ksher Web_Alipay API 🔗</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="/wap_alipay" class="pure-menu-link">Ksher Wap_Alipay API 🔗</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="/app_pay" class="pure-menu-link">Ksher APP_Pay API 🔗</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="/minipro_pay" class="pure-menu-link">Ksher Miniprogram_Pay API 🔗</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pure-menu-item"><a href="/order_query" class="pure-menu-link">Order Query</a></li>
+                <li class="pure-menu-item"><a href="/order_close" class="pure-menu-link">Order Close</a></li>
+                <li class="pure-menu-item"><a href="/order_refund" class="pure-menu-link">Order Refund</a></li>
+                <li class="pure-menu-item"><a href="/refund_query" class="pure-menu-link">Refund Query</a></li>
+                <li class="pure-menu-item"><a href="/rate_query" class="pure-menu-link">Rate Query</a></li>
+                <li class="pure-menu-item"><a href="pay_notify" class="pure-menu-link">Pay Notify</a></li>
+                <li class="pure-menu-item"><a href="/error_codes" class="pure-menu-link">ERROR CODES</a></li>
+
+            </ul>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div id = "main" >
+        <div class="header">
+            <h3>Ksher Wap_Alipay API Documentation</h3>
+
+        </div>
+
+        <div class="content">
+            <h3>Overview</h3>
+            <p>This document describes how merchant or software company use Ksher Wap_Alipay API. The target readers are R&D engineers, architects and other related integration engineers.</p>
+            <h3>Applicable Cases</h3>
+            <p>Wap_Alipay is applicable for the mobile online website payment, merchant system calls ordering API according to the goods in the consumer's cart. Once integrated the Wap_Alipay payment service, the Alipay payment button should be presented an on merchant's web page for the consumer to complete the payment and check out.</p>
+            <h3>Payment Flow</h3>
+            <img src="/static/wapalipay.jpg" height="600" width="450">
+            <p>1.The Buyer browse the merchant website and place an order on merchant website.
+                <p>1.1. The Buyer choose Alipay to pay for one order.</p>
+                <p>1.2. The merchant website create the order in Ksher Wap_Alipay by calling a Ksher WebService API.</p>
+                <p>1.3. Ksher WebService forward Alipay login Interface to merchant back-end and then merchant display it on website for buyer to login.</p>
+            <p>2.The Buyer entering alipay username and password.</p>
+            <p>3.The Buyer Login Alipay.</p>
+            <p>4. The Buyer choose payment channel and enter payment password.</p>
+            <p>5. The Buyer confirm to pay ,merchant forward transaction to Ksher Wap_Alipay.</p>
+            <p>6. The merchant website can get the payment result either by listening to WebService callback from Ksher Wap_Alipay, or</p>
+            <p>7. Query the payment result from Ksher Wap_Alipay via Ksher WebService API periodically.</p>
+            <p>8. When the buyer request a refund on mechant website,</p>
+            <p>8.1. merchant back-end call Ksher WebService API order_refund () to issue a order.</p>
+            <p>8.2. Ksher WebService return refund result to merchant back-end for merchant to display on website.</p>
+
+
+            <h3>Demo</h3>
+            <p>This link is User Experience  Demo, Please open the link below use mobile browser:</p>
+            <a href="http://ht.dspread.com/front/Demo/wap_pay">http://ht.dspread.com/front/Demo/wap_pay</a>
+            <div><img src="/static/wap1.png" height="300" width="380"></div>
+            <div><img src="/static/wap2.png" height="300" width="380"></div>
+            <div><img src="/static/wap3.png" height="300" width="380"></div>
+            <div><img src="/static/wap4.png" height="300" width="380"></div>
+            <div><img src="/static/wap5.png" height="300" width="380"></div>
+
+
+
+
+            <h3>Ksher Wap_Alipay Request url</h3>
+            <p> https://api.mch.ksher.net/KsherPay/wap_pay </p>
+            <h3> Request Method</h3>
+            <p> Post </p>
+            <h3>Request Format</h3>
+            <p>application/x-www-form-urlencoded</p>
+
+            <h3>Ksher Wap_Alipay Order Request</h3>
+            <h4>- Request Parameters</h4>
+            <table class="pure-table" width="60">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Value Example</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="pure-table-odd">
+                        <td>appid</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>mch20163  </td>
+                        <td>appid is the merchant ID that authorised by Ksher</td>
+                    </tr>
+
+                    <tr>
+                        <td>nonce_str</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>"sQ8gfSpeeV5Ld8ulW9q7JxUnXSOiZ90Y"</td>
+                        <td>Random string</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>channel</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>wechat</td>
+                        <td>Value range: wechat /alipay /bbl_promptpay</td>
+                    </tr>
+
+                    <tr>
+                        <td>sign</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>refer to following relevant chapter for signature algorithm</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>mch_order_no</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>generated by merchant self, it must be unique on the merchant side.</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>local_total_fee</td>
+                        <td>Int</td>
+                        <td>YES</td>
+                        <td>100</td>
+                        <td>total amount of the order and it must be an integer, the unit is cent.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>fee_type</td>
+                        <td>String(16)</td>
+                        <td>YES</td>
+                        <td>CNY</td>
+                        <td>comply with ISO 4217, 3 characters </td>
+                    </tr>
+
+                    <tr>
+                        <td>notify_url</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td>http://www.myweb.com/wepay/pay_notify</td>
+                        <td>the url to receive the asynchronous notification about the status of the payment from Ksher; If merchant leaves this field blank, then there will be no notification to send back to merchant.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>operator_id</td>
+                        <td>String(32)</td>
+                        <td>NO</td>
+                        <td> </td>
+                        <td>The id of cashier.</td>
+                    </tr>
+
+                    <tr>
+                        <td>paypage_title</td>
+                        <td>String(512)</td>
+                        <td>NO</td>
+                        <td> </td>
+                        <td>the title of payment window page.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>product</td>
+                        <td>String(512)</td>
+                        <td>NO</td>
+                        <td>    </td>
+                        <td>product info.</td>
+                    </tr>
+                    <tr>
+                        <td>redirect_url</td>
+                        <td>String(256)</td>
+                        <td>NO</td>
+                        <td> </td>
+                        <td>After the payment is completed, the web page is redirected to this URL. If merchant leaves this field blank, the web page will stay on payment page after payment completed.</td>
+                    </tr>
+
+                    <tr  class="pure-table-odd">
+                        <td>refer_url</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>The URL of the merchant website homepage. If the merchant doesn't have a website, the merchant app download address can be used for this field.</td>
+                    </tr>
+
+                    <tr>
+                        <td>time_stamp</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td> time stamp example: "time_stamp": "20190622131804"</td>
+                    </tr>
+
+                    <tr  class="pure-table-odd">
+                        <td>version</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>    </td>
+                        <td>value required： "version": "3.0.0"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>-Request Example</h4>
+            <code class="rainbow">
+
+                <div>{</div>
+                    <div>"appid": "mch20163",</div>
+                    <div>"channel": "alipay",</div>
+                    <div>"fee_type": "THB",</div>
+                    <div>"local_total_fee": 100,</div>
+                    <div>"mch_order_no": "1495773587",</div>
+                    <div>"nonce_str": "sQ8gfSpeeV5Ld8ulW9q7JxUnXSOiZ90Y",</div>
+                    <div>"notify_url": "http://www.yoursweb.com/notify",</div>
+                    <div>"operator_id": "", </div>
+                    <div>"paypage_title": "TestWeb", </div>
+                    <div>"product": "", </div>
+                    <div>"redirect_url": "http://www.ksher.com", </div>
+                    <div>"refer_url": "http://www.ksher.com", </div>
+                    <div>"sign": "4b609e384500ba8b2ed5eddbcc3aab5c7325c45a13bb5
+                        31655ac459022da0d15ead7e6ab8d73f6d1182117547a6e53871c8da44d99cf02e9d8420c9b20130a2c",</div>
+                    <div>"time_stamp": "20170526113947",</div>
+                    <div>"version": "3.0.0"</div>
+                <div>}</div>
+            </code>
+
+            <h4>-SUCCESS Response Parameters</h4>
+            <table class="pure-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Example</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="pure-table-odd">
+                        <td>code</td>
+                        <td>int</td>
+                        <td>YES</td>
+                        <td>0</td>
+                        <td>0: it only shows the calling of the API is successful, not meaning the target business operation succeed. Non 0: Calling of the API failed, merchant can use the same parameters to launch the request again.</td>
+                    </tr>
+
+                    <tr>
+                        <td>status_code</td>
+                        <td>int</td>
+                        <td>YES</td>
+                        <td></td>
+                        <td>0: it only shows the calling of the API is successful, not meaning the target business operation succeed. Non 0: Calling of the API failed, merchant can use the same parameters to launch the request again.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>status_msg</td>
+                        <td>String(256)</td>
+                        <td>NO</td>
+                        <td> </td>
+                        <td>the status message </td>
+                    </tr>
+
+                    <tr>
+                        <td>sign</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>refer to following relevant chapter for signature algorithm</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>version</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>"3.0.0"</td>
+                        <td>API version</td>
+                    </tr>
+
+                    <tr>
+                        <td>msg</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>the response message.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>time_stamp</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td>"20190622131804"</td>
+                        <td>time stamp </td>
+                    </tr>
+
+                    <tr>
+                        <td>data</td>
+                        <td>JSON</td>
+                        <td>YES</td>
+                        <td></td>
+                        <td>refer to data params below</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <h4>-data Parameters</h4>
+            <table class="pure-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Example</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="pure-table-odd">
+                        <td>ksher_order_no</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>"70020190622131804227008"</td>
+                        <td>Generated by ksher server.</td>
+                    </tr>
+
+                    <tr>
+                        <td>nonce_str</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td>"gkL7h62gW22Dufn4PHTqCzdlU9MlTIEv"</td>
+                        <td>Random String</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>result</td>
+                        <td>string(16)</td>
+                        <td>YES</td>
+                        <td> "SUCCESS" or "FAIL" </td>
+                        <td>result: the result of the request </td>
+                    </tr>
+
+                    <tr>
+                        <td>redirect_url</td>
+                        <td>String(256)</td>
+                        <td>NO</td>
+                        <td> </td>
+                        <td>After the payment is completed, the web page is redirected to this URL. If merchant leaves this field blank, the web page will stay on payment page after payment completed.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>appid</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>"mch20102"</td>
+                        <td>assigned by Ksher</td>
+                    </tr>
+
+                    <tr>
+                        <td>pay_url</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>open this url on pc browser</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>mch_order_no</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>"1561180684"</td>
+                        <td>generated by merchant, it must be unique, remember to use new order no. for each request.</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <h4>-SUCCESS Response example</h4>
+            <code class="rainbow">
+                <div>{</div>
+                    <div>"code": 0,</div>
+                    <div>"status_code": "",</div>
+                    <div>"status_msg": "",</div>
+                    <div>"sign": "ace1f7e39d4d039785831c17ed43b7ae79acf41d7fa9c20d9643d8444f125a09bac1dcf4b9e771796dcdbd8acf1671e232b537abbd212a2f2cda877df5740b1c",</div>
+                    <div>"version": "3.0.0",</div>
+                    <div>"msg": "ok",</div>
+                    <div>"time_stamp": "",</div>
+                    <div>"data":</div>
+                        <div> {"ksher_order_no": "70020190622131804227008",</div>
+                        <div> "nonce_str": "sQ8gfSpeeV5Ld8ulW9q7JxUnXSOiZ90Y",</div>
+                        <div> "result": "SUCCESS",</div>
+                        <div>"redirect_url": "http://www.ksher.com",</div>
+                        <div>"appid": "mch20102",</div>
+                        <div>"pay_url": "https://globalmapi.alipay.com/gateway.do?_input_charset=utf-8&currency=THB&notify_url=http%3A//api.mch.pospre.com/KsherPay/alipay_notify&out_trade_no=90020191211214128407950&partner=2088331094732778&product_code=NEW_WAP_OVERSEAS_SELLER&refer_url=http%3A//www.ksher.com&return_url=http%3A//www.ksher.com&secondary_merchant_id=299170002&secondary_merchant_industry=5811&secondary_merchant_name=JOY5&service=create_forex_trade_wap&sign=94a792b6c1adc85cc12cea4e86c30164&sign_type=MD5&subject=JOY5&total_fee=1.0",</div>
+                        <div>"mch_order_no": "1561180684"}</div>
+                <div>}</div>
+            </code>
+
+            <h4>-FAIL Response Parameters</h4>
+            <table class="pure-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Example</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="pure-table-odd">
+                        <td>code</td>
+                        <td>int</td>
+                        <td>YES</td>
+                        <td>0</td>
+                        <td>0: it only shows the calling of the API is successful, not meaning the target business operation succeed. Non 0: Calling of the API failed, merchant can use the same parameters to launch the request again.</td>
+                    </tr>
+
+                    <tr>
+                        <td>status_code</td>
+                        <td>int</td>
+                        <td>YES</td>
+                        <td></td>
+                        <td>0: it only shows the calling of the API is successful, not meaning the target business operation succeed. Non 0: Calling of the API failed, merchant can use the same parameters to launch the request again.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>status_msg</td>
+                        <td>String(256)</td>
+                        <td>NO</td>
+                        <td> </td>
+                        <td>the status message </td>
+                    </tr>
+
+                    <tr>
+                        <td>sign</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>refer to following relevant chapter for signature algorithm</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>version</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>"3.0.0"</td>
+                        <td>API version</td>
+                    </tr>
+
+                    <tr>
+                        <td>msg</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td> </td>
+                        <td>the response message.</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>time_stamp</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td>"20190622131804"</td>
+                        <td>time stamp </td>
+                    </tr>
+
+                    <tr>
+                        <td>data</td>
+                        <td>JSON</td>
+                        <td>YES</td>
+                        <td></td>
+                        <td>refer to data params below</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <h4>-data Parameters</h4>
+            <table class="pure-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Example</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="pure-table-odd">
+                        <td>result</td>
+                        <td>string(16)</td>
+                        <td>YES</td>
+                        <td>FAIL</td>
+                        <td>Value range: (FAIL, NOTSURE) FAIL : failed to close,in this case, merchant should re-launch the close request. NOTSURE: it is not sure if the close operation succeed.</td>
+                    </tr>
+
+                    <tr>
+                        <td>err_code</td>
+                        <td>String(32)</td>
+                        <td>YES</td>
+                        <td>SYSTEMERROR</td>
+                        <td>refer to the error list for the details</td>
+                    </tr>
+
+                    <tr class="pure-table-odd">
+                        <td>err_msg</td>
+                        <td>String(128)</td>
+                        <td>YES</td>
+                        <td> system error </td>
+                        <td>the detailed description of the error</td>
+                    </tr>
+
+                    <tr>
+                        <td>nonce_str</td>
+                        <td>String(256)</td>
+                        <td>YES</td>
+                        <td>"IeYrVB93dq8JbJbHJq1oZAW4d7PEb4jU" </td>
+                        <td>Random string</td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+
+            <h4>-FAIL response example</h4>
+            <code class ="rainbow">
+                <div>{</div>
+                    <div>"code": 0,</div>
+                    <div>"msg": "ok",</div>
+                    <div>"version": "3.0.0",</div>
+                    <div>"status_code": "",</div>
+                    <div>"time_stamp": "",</div>
+                    <div>"status_msg": "",</div>
+                    <div> "data":</div>
+                    <div>{"result": "FAIL",</div>
+                    <div>"err_code": "KSHER_INVALID_MCHINFO",</div>
+                    <div>"err_msg": "merchant not exist.",</div>
+                    <div>"nonce_str": "IeYrVB93dq8JbJbHJq1oZAW4d7PEb4jU"},</div>
+                    <div>"sign": "a5468e80bd1ce6176bbbe30d20d4bef51adf09f2d6ff44135a38baf0567eb10a619113f9fe618207ceb646e089803c81bb834f0bf686c8c9f3b31d9e919fa448"</div>
+                    <div>}</div>
+            </code>
+
+
+
+
+        </div>
+
+        <div class = "footer">
+            <div class="pure-u-1-3">
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+{#<script src="static/js/ui.js"></script>#}
+{#<script src="{{ url_for('static', filename='js/ui.js') }}"></script>#}
+<script>
+  (function (window, document) {
+    'use strict'
+
+    // Enable drop-down menus in Pure
+    // Inspired by YUI3 gallery-simple-menu by Julien LeComte
+    // [https://github.com/yui/yui3-gallery/blob/master/src/gallery-simple-menu/js/simple-menu.js]
+
+    function PureDropdown (dropdownParent) {
+
+      var PREFIX = 'pure-',
+        ACTIVE_CLASS_NAME = PREFIX + 'menu-active',
+        ARIA_ROLE = 'role',
+        ARIA_HIDDEN = 'aria-hidden',
+        MENU_OPEN = 0,
+        MENU_CLOSED = 1,
+        MENU_PARENT_CLASS_NAME = 'pure-menu-has-children',
+        MENU_ACTIVE_SELECTOR = '.pure-menu-active',
+        MENU_LINK_SELECTOR = '.pure-menu-link',
+        MENU_SELECTOR = '.pure-menu-children',
+        DISMISS_EVENT = (window.hasOwnProperty &&
+          window.hasOwnProperty('ontouchstart')) ?
+          'touchstart' : 'mousedown',
+
+        ARROW_KEYS_ENABLED = true,
+
+        ddm = this // drop down menu
+
+      this._state = MENU_CLOSED
+
+      this.show = function () {
+        if (this._state !== MENU_OPEN) {
+          this._dropdownParent.classList.add(ACTIVE_CLASS_NAME)
+          this._menu.setAttribute(ARIA_HIDDEN, false)
+          this._state = MENU_OPEN
+        }
+      }
+
+      this.hide = function () {
+        if (this._state !== MENU_CLOSED) {
+          this._dropdownParent.classList.remove(ACTIVE_CLASS_NAME)
+          this._menu.setAttribute(ARIA_HIDDEN, true)
+          this._link.focus()
+          this._state = MENU_CLOSED
+        }
+      }
+
+      this.toggle = function () {
+        this[this._state === MENU_CLOSED ? 'show' : 'hide']()
+      }
+
+      this.halt = function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+      }
+
+      this._dropdownParent = dropdownParent
+      this._link = this._dropdownParent.querySelector(MENU_LINK_SELECTOR)
+      this._menu = this._dropdownParent.querySelector(MENU_SELECTOR)
+      this._firstMenuLink = this._menu.querySelector(MENU_LINK_SELECTOR)
+
+      // Set ARIA attributes
+      this._link.setAttribute('aria-haspopup', 'true')
+      this._menu.setAttribute(ARIA_ROLE, 'menu')
+      this._menu.setAttribute('aria-labelledby', this._link.getAttribute('id'))
+      this._menu.setAttribute('aria-hidden', 'true');
+      [].forEach.call(
+        this._menu.querySelectorAll('li'),
+        function (el) {
+          el.setAttribute(ARIA_ROLE, 'presentation')
+        }
+      );
+      [].forEach.call(
+        this._menu.querySelectorAll('a'),
+        function (el) {
+          el.setAttribute(ARIA_ROLE, 'menuitem')
+        }
+      )
+
+      // Toggle on click
+      this._link.addEventListener('click', function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        ddm.toggle()
+      })
+
+      // Keyboard navigation
+      document.addEventListener('keydown', function (e) {
+        var currentLink,
+          previousSibling,
+          nextSibling,
+          previousLink,
+          nextLink
+
+        // if the menu isn't active, ignore
+        if (ddm._state !== MENU_OPEN) {
+          return
+        }
+
+        // if the menu is the parent of an open, active submenu, ignore
+        if (ddm._menu.querySelector(MENU_ACTIVE_SELECTOR)) {
+          return
+        }
+
+        currentLink = ddm._menu.querySelector(':focus')
+
+        // Dismiss an open menu on ESC
+        if (e.keyCode === 27) {
+          /* Esc */
+          ddm.halt(e)
+          ddm.hide()
+        }
+        // Go to the next link on down arrow
+        else if (ARROW_KEYS_ENABLED && e.keyCode === 40) {
+          /* Down arrow */
+          ddm.halt(e)
+          // get the nextSibling (an LI) of the current link's LI
+          nextSibling = (currentLink) ? currentLink.parentNode.nextSibling : null
+          // if the nextSibling is a text node (not an element), go to the next one
+          while (nextSibling && nextSibling.nodeType !== 1) {
+            nextSibling = nextSibling.nextSibling
+          }
+          nextLink = (nextSibling) ? nextSibling.querySelector('.pure-menu-link') : null
+          // if there is no currently focused link, focus the first one
+          if (!currentLink) {
+            ddm._menu.querySelector('.pure-menu-link').focus()
+          } else if (nextLink) {
+            nextLink.focus()
+          }
+        }
+        // Go to the previous link on up arrow
+        else if (ARROW_KEYS_ENABLED && e.keyCode === 38) {
+          /* Up arrow */
+          ddm.halt(e)
+          // get the currently focused link
+          previousSibling = (currentLink) ? currentLink.parentNode.previousSibling : null
+          while (previousSibling && previousSibling.nodeType !== 1) {
+            previousSibling = previousSibling.previousSibling
+          }
+          previousLink = (previousSibling) ? previousSibling.querySelector('.pure-menu-link') : null
+          // if there is no currently focused link, focus the last link
+          if (!currentLink) {
+            ddm._menu.querySelector('.pure-menu-item:last-child .pure-menu-link').focus()
+          }
+          // else if there is a previous item, go to the previous item
+          else if (previousLink) {
+            previousLink.focus()
+          }
+        }
+      })
+
+      // Dismiss an open menu on outside event
+      document.addEventListener(DISMISS_EVENT, function (e) {
+        var target = e.target
+        if (target !== ddm._link && !ddm._menu.contains(target)) {
+          ddm.hide()
+          ddm._link.blur()
+        }
+      })
+
+    }
+
+    function initDropdowns () {
+      var dropdownParents = document.querySelectorAll('.pure-menu-has-children')
+      for (var i = 0; i < dropdownParents.length; i++) {
+        var ddm = new PureDropdown(dropdownParents[i])
+      }
+    }
+
+    initDropdowns()
+
+  }(this, this.document))
+</script>
+</body>
+
+</html>
